@@ -1,0 +1,8 @@
+{
+  "id": "nec093.sample.throwing",
+  "name": "Throwing (test)",
+  "version": "0.1.0",
+  "api": "1.0",
+  "description": "Throws in OnLoad: the loader marks it failed and goes on.",
+  "assembly": "ThrowingMod.dll"
+}

@@ -1,0 +1,1 @@
+{ "id": "nec093.test.missing-assembly", "name": "Missing assembly", "version": "0.1.0", "api": "1.0", "assembly": "NotThere.dll" }

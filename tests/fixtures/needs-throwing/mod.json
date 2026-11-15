@@ -1,0 +1,1 @@
+{ "id": "nec093.test.needs-throwing", "name": "Needs the throwing mod", "version": "0.1.0", "api": "1.0", "dependencies": [ { "id": "nec093.sample.throwing" } ] }

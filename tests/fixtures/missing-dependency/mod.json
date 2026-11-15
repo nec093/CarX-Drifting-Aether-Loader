@@ -1,0 +1,1 @@
+{ "id": "nec093.test.missing-dependency", "name": "Missing dependency", "version": "0.1.0", "api": "1.0", "dependencies": [ { "id": "nec093.test.absent", "version": ">=1.0.0" } ] }

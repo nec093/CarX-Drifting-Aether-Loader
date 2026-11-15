@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+	<!-- The SDK an Aether mod references (Private=false: the loader ships the one copy). -->
+	<PropertyGroup>
+		<AssemblyName>Aether.API</AssemblyName>
+		<RootNamespace>Aether</RootNamespace>
+		<Version>0.2.0</Version>
+	</PropertyGroup>
+	<ItemGroup>
+		<Reference Include="UnityEngine.IMGUIModule" HintPath="$(ManagedDir)\UnityEngine.IMGUIModule.dll" Private="false" />
+		<Reference Include="UnityEngine.AssetBundleModule" HintPath="$(ManagedDir)\UnityEngine.AssetBundleModule.dll" Private="false" />
+	</ItemGroup>
+</Project>

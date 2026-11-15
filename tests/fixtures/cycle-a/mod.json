@@ -1,0 +1,1 @@
+{ "id": "nec093.test.cycle-a", "name": "Cycle A", "version": "0.1.0", "api": "1.0", "dependencies": [ { "id": "nec093.test.cycle-b" } ] }

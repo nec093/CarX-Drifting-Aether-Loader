@@ -1,0 +1,30 @@
+{
+  "_comment": "What scripts\\test-game.ps1 expects in AetherLoader\\logs\\status.json, by mod folder (without the aether-test- prefix). loader.json switches off nec093.test.switched-off for the test.",
+  "states": {
+    "HelloMod": "Loaded",
+    "DependentMod": "Loaded",
+    "ThrowingMod": "Failed",
+    "assets-only": "Loaded",
+    "missing-dependency": "Skipped",
+    "version-mismatch": "Skipped",
+    "api-newer": "Skipped",
+    "api-other-major": "Skipped",
+    "cycle-a": "Skipped",
+    "cycle-b": "Skipped",
+    "broken-json": "Skipped",
+    "bad-id": "Skipped",
+    "zz-duplicate-hello": "Skipped",
+    "switched-off": "Disabled",
+    "needs-switched-off": "Skipped",
+    "needs-throwing": "Skipped",
+    "missing-assembly": "Failed"
+  },
+  "loadsBefore": [ [ "HelloMod", "DependentMod" ] ],
+  "logLines": [
+    "[Info   :nec093.sample.hello] hello from nec093.sample.hello 0.1.0",
+    "[Info   :nec093.sample.hello] outside path refused: True",
+    "[Info   :nec093.sample.hello] Update runs",
+    "[Info   :nec093.sample.dependent] Hello is loaded: True",
+    "the optional dependency is installed: False"
+  ]
+}

@@ -1,0 +1,44 @@
+# AGENT.md — Aether Loader で作業するエージェントへの指示
+
+## 1. 言語と報告
+
+- 回答と報告は日本語で書く。コード、コミットメッセージ、ログ文字列は英語でよい。
+- **確認できたことと未確認のことを分けて書く。** 「ゲーム内テストで確認」「ビルドのみ」「未確認」を区別する。
+
+## 2. 前提
+
+- Aether シリーズの Mod（Aether Mod）を管理する BepInEx 5 のプラグイン。KSL と kino には依存しない（KSL 1.0.14 は BepInEx を消し、ホワイトリストに無い BepInEx の Mod を BAN する）。
+- 予定している Aether Mod は、独自マップ、独自パーツなど。それぞれ別の Mod で、別のリポジトリ。描画の Mod は Aether Graphics（`CarX-Drifting-Aether-Graphics`、今は BepInEx のプラグインとして単独で動く）。
+- Mod が参照するのは `Aether.API` だけ。ローダーの型（`AetherLoader.*`）を Mod から見せない。Mod に要るものは `Aether.API` に足す。
+- **`Aether.API` の互換を守る。** 公開している型やメンバーを消したり変えたりしたら `AetherApi.Major` を上げる。足しただけなら `Minor` を上げる。ローダーは、メジャーが同じでマイナーがローダー以下の Mod を読み込む。
+- Mod の読み込みはゲームの起動時だけ。実行中の読み込みや取り外しはしない（ウィンドウの切り替えは次の起動から）。
+- 1 つの Mod の失敗で、ほかの Mod やゲームを止めない。理由は `ModInfo.Reason` と `logs\status.json` に残す。
+
+## 3. 遵守事項
+
+- push はユーザーから依頼があったときだけ。コミットもユーザーの指示に従う。
+- ゲームの exe や既存ファイルを書き換えない。足すのは README の表のファイルだけ。
+- ファイルをダウンロードする前に、ファイル名・入手元・サイズを伝えてユーザーの許可を得る。
+- 逆コンパイルしたゲームのコード、ゲームの DLL や素材をリポジトリに入れない。
+- ローカルの NatureFX プロジェクト（隣のフォルダー）は読まない。
+- 入力の自動操作（キーやマウスの送信）はしない。ゲームの再起動はしてよい。
+
+## 4. ビルドとテスト
+
+| 対象 | コマンド |
+|---|---|
+| すべて | `powershell -NoProfile -ExecutionPolicy Bypass -File scripts\build.ps1` |
+| 配置 | `scripts\deploy.ps1 -Build`（ゲームを閉じて） |
+| ゲーム内テスト | `scripts\test-game.ps1`（ビルド、テスト用 Mod の配置、起動、`tests\expected.json` との比較、片付け） |
+
+- **読み込みや依存解決を変えたとき:** `tests\fixtures\` にケースを足し、`tests\expected.json` に期待する状態を書き、`test-game.ps1` を通す。
+- **ウィンドウ（F9）の見た目の確認:**
+  - `test-game.ps1 -Keep -OpenWindow` で開いた状態で起動し、`scripts\screenshot.ps1` で撮る。
+  - 操作（クリック、キー）は入力を送れないので確かめられない。操作に関わる変更は「未確認」として報告する。
+  - 撮り終えたら `config\dev-open-window` を消す。
+- **ウィンドウのデザイン:**
+  - VS Code の Dark+ の配色に合わせる。文字は背景に対して 4.5:1 以上。
+  - 状態は文字でも示す。
+  - 寸法は `UiSkin.S()` で倍率を掛けて決める。`GUI.matrix` で拡大すると、文字がぼやける。
+  - Segoe UI に無い記号の文字は四角に化ける。記号は描いたテクスチャにする（`UiSkin.Stroke`）。
+  - 暗い中間色の細い文字は、ゲームの画面では指定より暗く見える。小さな文字に暗い灰色を使わない。

@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<AssemblyName>DependentMod</AssemblyName>
+	</PropertyGroup>
+	<ItemGroup>
+		<!-- uses HelloMod's types: the loader loads HelloMod first and resolves the reference to it -->
+		<ProjectReference Include="..\HelloMod\HelloMod.csproj" Private="false" />
+	</ItemGroup>
+</Project>

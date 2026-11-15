@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+	<!-- The BepInEx plugin: finds, orders and loads the Aether mods, and shows them in its window. -->
+	<PropertyGroup>
+		<AssemblyName>AetherLoader</AssemblyName>
+		<RootNamespace>AetherLoader</RootNamespace>
+		<Version>0.2.0</Version>
+	</PropertyGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Aether.API\Aether.API.csproj" />
+		<Reference Include="BepInEx" HintPath="$(BepInExDir)\BepInEx.dll" Private="false" />
+		<!-- BepInEx.dll is built against the UnityEngine.dll facade (type forwarders to the modules) -->
+		<Reference Include="UnityEngine" HintPath="$(ManagedDir)\UnityEngine.dll" Private="false" />
+		<Reference Include="UnityEngine.AssetBundleModule" HintPath="$(ManagedDir)\UnityEngine.AssetBundleModule.dll" Private="false" />
+		<Reference Include="UnityEngine.IMGUIModule" HintPath="$(ManagedDir)\UnityEngine.IMGUIModule.dll" Private="false" />
+		<Reference Include="UnityEngine.TextRenderingModule" HintPath="$(ManagedDir)\UnityEngine.TextRenderingModule.dll" Private="false" />
+		<!-- the game ships Newtonsoft.Json: mod.json and loader.json -->
+		<Reference Include="Newtonsoft.Json" HintPath="$(ManagedDir)\Newtonsoft.Json.dll" Private="false" />
+	</ItemGroup>
+</Project>

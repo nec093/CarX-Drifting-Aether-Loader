@@ -1,0 +1,9 @@
+{
+  "id": "nec093.sample.hello",
+  "name": "Hello (sample)",
+  "version": "0.1.0",
+  "api": "1.0",
+  "author": "nec093",
+  "description": "The smallest Aether mod: logs, keeps a setting and runs a component.",
+  "assembly": "HelloMod.dll"
+}

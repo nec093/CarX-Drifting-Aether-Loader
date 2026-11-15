@@ -1,0 +1,12 @@
+<Project>
+	<!-- A sample mod: its folder (mod.json + the dll) is built into build\mods\<project>. -->
+	<Import Project="..\Directory.Build.props" />
+	<PropertyGroup>
+		<OutputPath>$(RepoRoot)build\mods\$(MSBuildProjectName)\</OutputPath>
+	</PropertyGroup>
+	<ItemGroup>
+		<!-- Private=false: the loader ships Aether.API.dll; a mod never carries its own copy -->
+		<ProjectReference Include="$(RepoRoot)src\Aether.API\Aether.API.csproj" Private="false" />
+		<None Include="mod.json" CopyToOutputDirectory="PreserveNewest" />
+	</ItemGroup>
+</Project>

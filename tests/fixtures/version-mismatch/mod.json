@@ -1,0 +1,1 @@
+{ "id": "nec093.test.version-mismatch", "name": "Version mismatch", "version": "0.1.0", "api": "1.0", "dependencies": [ { "id": "nec093.sample.hello", "version": ">=2.0.0" } ] }

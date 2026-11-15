@@ -1,0 +1,14 @@
+{
+  "id": "nec093.sample.dependent",
+  "name": "Dependent (sample)",
+  "version": "0.1.0",
+  "api": "1.0",
+  "author": "nec093",
+  "description": "Needs the Hello sample and uses its types; an optional dependency that is not installed.",
+  "assembly": "DependentMod.dll",
+  "entry": "Samples.DependentMod",
+  "dependencies": [
+    { "id": "nec093.sample.hello", "version": ">=0.1.0" },
+    { "id": "nec093.sample.not-installed", "version": "1.0", "optional": true }
+  ]
+}
