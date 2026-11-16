@@ -13,7 +13,7 @@ namespace AetherLoader {
 	/// </summary>
 	[BepInPlugin("nec093.aether.loader", "Aether Loader", Version)]
 	public sealed class LoaderPlugin : BaseUnityPlugin {
-		public const string Version = "0.2.0";
+		public const string Version = "0.3.0";
 
 		private ModLoader loader_;
 

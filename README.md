@@ -17,7 +17,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File scripts\deploy.ps1 -Build   
 |---|---|
 | `BepInEx\plugins\AetherLoader\` | `AetherLoader.dll`（プラグイン）、`Aether.API.dll`（SDK） |
 | `AetherLoader\mods\<フォルダー>\` | Mod（`mod.json` と DLL、アセット） |
-| `AetherLoader\config\loader.json` | ウィンドウの設定（`hotkey`、`uiScale`、`window` の位置と大きさ、無効にした Mod の `disabled`） |
+| `AetherLoader\config\loader.json` | ウィンドウの設定（`hotkey`、`uiScale`、`window` の位置・大きさ・一覧の幅・文字の大きさ・不透明度、`input` のゲームへの入力の扱い、無効にした Mod の `disabled`） |
 | `AetherLoader\config\<Mod の ID>\` | 各 Mod の設定 |
 | `AetherLoader\logs\status.json` | 今回の起動で何が読み込まれ、何が読み込まれなかったか（理由つき） |
 
@@ -27,23 +27,31 @@ BepInEx 5（Windows x64、5.4.23.6 で確認）が必要です。KSL 1.0.14 を�
 
 ## 管理画面（F9）
 
-VS Code の Dark+ の配色に合わせたウィンドウです。
+落ち着いた灰色に青を 1 色だけ使ったウィンドウです。角は控えめに丸め、まとまった情報はカードで囲みます。
 
 | 場所 | 内容 |
 |---|---|
-| 左 | Mod の一覧。チェックボックス（有効／無効）、状態、名前、版。上に絞り込み欄と状態のタブ（ALL / OK / OFF / PROBLEMS） |
-| 右 | 選んだ Mod。状態、版、作者、フォルダー、設定フォルダー、読み込まれなかった理由、説明、依存先（REQUIRES）、それを必要とする Mod（REQUIRED BY）。ボタンは Disable/Enable、Open Folder、Open Config |
-| 下 | ステータスバー。状態ごとの件数、保留中の変更と Undo、Mods Folder、Close |
+| タイトルバー | 名前と版。最大化（タイトルバーのダブルクリックでも）と、閉じるボタン |
+| 左端（アクティビティバー） | Mods と Settings の切り替え。表示中の Mods をもう一度押すと、一覧をたたむ |
+| 左（Mod の一覧） | Mod ごとに、その下にページ（Details と、その Mod 自身のページ）を並べたツリー。状態の色の点と、保留中の変更の黄色の ●。上に絞り込み欄と、一覧をたたむ ‹。右端の境目をドラッグすると幅が変わる |
+| 右 | 上に今の場所（`Aether Parts / Adjust`）。一覧をたたんでいるときは、戻す › もここ。下に選んだページ |
+| 下 | ステータスバー。状態ごとの件数、保留中の変更と Undo、ゲームへの入力を止めている間の表示、Mods Folder、Close |
 
+- **Details:** Mod 名の右に有効／無効のスイッチ（次の起動から反映）。その下に ID と版、Open folder と Open config。Information（状態、版、作者、フォルダー、設定フォルダー）、説明、Requires（依存先）、Required by（それを必要とする Mod）のカード。読み込まれなかった Mod は理由も出す。
+- **Settings:**
+  - Window: 大きさ（UI の倍率。− / + と Auto）、文字の大きさ（Normal / Large / Larger。文字と、文字の入る行や列だけが大きくなる）、不透明度、ポインターが離れている間に薄くする（どこまで薄くするか）、最大化と大きさ・位置のリセット
+  - Input: ウィンドウの上ではゲームにマウスを渡さない、入力中とウィンドウの上ではゲームにキーを渡さない、開閉のキー（押してから好きなキー。Esc でそのまま）
+  - About: 版、Mod の数、Mods フォルダーと設定フォルダー
+- **ゲームへの入力:** ウィンドウは IMGUI なので、そのままではクリック、ドラッグ、ホイール、キーがゲームにも届く。Settings で止めている間は、ゲームの Rewired（マウスとキー）、Unity の UI（EventSystem）、Unity の `Input`（ボタン、ホイール、キー）を止め、ゲームの「ポインターが UI の上か」の判定にも「上」と答える（`InputGate.cs`）。ボタンを離したことはいつも渡す（ゲームで始めたドラッグはゲームで終わる）。
 - **キー操作:**
-  - ↑↓：選択を移す
+  - ↑↓：Mod の選択を移す
   - Space：選んだ Mod の有効と無効を切り替える
   - Ctrl+F：絞り込み欄へ移る
-  - Esc：絞り込み欄から抜ける。欄の外では閉じる
-- **反映のタイミング:** 有効と無効の切り替えは、次の起動から反映します。保留中の Mod には黄色の ● が付きます。
-- **ウィンドウ:** タイトルバーで動かし、右下の角で大きさを変えます。位置と大きさは `loader.json` に 1440p 換算で残ります。
-- **大きさ:** 画面の高さに合わせます（1440p で 1 倍）。`loader.json` の `uiScale` で固定もできます。文字は最終的な大きさで描くので、拡大してもぼやけません。
-- **アクセシビリティ:**
+  - Esc：入力欄から抜ける。欄の外では閉じる
+- **反映のタイミング:** 有効と無効の切り替えは、次の起動から反映します。
+- **ウィンドウ:** タイトルバーで動かし、右下の角で大きさを変えます。位置、大きさ、一覧の幅、たたんだ状態、最大化は `loader.json` に 1440p 換算で残ります。
+- **大きさ:** 画面の高さに合わせます（1440p で 1 倍）。Settings か `loader.json` の `uiScale` で固定もできます。文字は最終的な大きさで描くので、拡大してもぼやけません。
+- **Mod のページ:** Mod は `IModPanel` でページを足せます（Aether.API 1.1）。ページに渡す行やセルの書式は高さを固定しないので、ページが `GUILayout.Height` で決めた高さになります。`ModUi.S()` は文字の大きさも掛けた値です。- **アクセシビリティ:**
   - 文字と背景のコントラスト比は 4.5:1 以上です（WCAG AA）。
   - 状態は色だけでなく、`ok` / `off` / `skip` / `fail` の文字でも示します。
   - キーボードで操作できます。

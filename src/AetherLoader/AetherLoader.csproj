@@ -3,11 +3,14 @@
 	<PropertyGroup>
 		<AssemblyName>AetherLoader</AssemblyName>
 		<RootNamespace>AetherLoader</RootNamespace>
-		<Version>0.2.0</Version>
+		<Version>0.3.0</Version>
 	</PropertyGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\Aether.API\Aether.API.csproj" />
 		<Reference Include="BepInEx" HintPath="$(BepInExDir)\BepInEx.dll" Private="false" />
+		<!-- HarmonyX (BepInEx's): the window keeps the game's input from what is meant for it -->
+		<Reference Include="0Harmony" HintPath="$(BepInExDir)\0Harmony.dll" Private="false" />
+		<Reference Include="UnityEngine.InputLegacyModule" HintPath="$(ManagedDir)\UnityEngine.InputLegacyModule.dll" Private="false" />
 		<!-- BepInEx.dll is built against the UnityEngine.dll facade (type forwarders to the modules) -->
 		<Reference Include="UnityEngine" HintPath="$(ManagedDir)\UnityEngine.dll" Private="false" />
 		<Reference Include="UnityEngine.AssetBundleModule" HintPath="$(ManagedDir)\UnityEngine.AssetBundleModule.dll" Private="false" />
