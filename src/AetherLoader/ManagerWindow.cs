@@ -44,6 +44,10 @@ namespace AetherLoader {
 		private bool cursorVisible_;
 		private CursorLockMode cursorLock_;
 		private string message_;
+		// the status bar's items as decided at this frame's Layout (see DrawStatusBar)
+		private string statusMessage_;
+		private int statusPending_;
+		private bool statusHeld_;
 		private bool rebinding_;
 		private float alpha_ = 1f;
 		private bool hover_;
@@ -836,9 +840,16 @@ namespace AetherLoader {
 			int ok = mods.Count(m => m.State == ModState.Loaded), off = mods.Count(m => m.State == ModState.Disabled);
 			int skip = mods.Count(m => m.State == ModState.Skipped), fail = mods.Count(m => m.State == ModState.Failed);
 			GUILayout.Label(ok + " ok   " + off + " off   " + skip + " skip   " + fail + " fail", skin_.StatusText, GUILayout.ExpandWidth(false));
-			int pending = mods.Count(WillChange);
-			if (message_ != null) {
-				GUILayout.Label("│  " + Escape(message_), skin_.StatusText, GUILayout.ExpandWidth(false));
+			// which items show is decided once per frame at Layout: hover (and so the input gate), the message and the
+			// pending count can change before Repaint, and IMGUI needs both passes to draw the same controls
+			if (Event.current.type == EventType.Layout) {
+				statusMessage_ = message_;
+				statusPending_ = mods.Count(WillChange);
+				statusHeld_ = InputGate.BlockMouse || InputGate.BlockKeys;
+			}
+			int pending = statusPending_;
+			if (statusMessage_ != null) {
+				GUILayout.Label("│  " + Escape(statusMessage_), skin_.StatusText, GUILayout.ExpandWidth(false));
 			} else if (pending > 0) {
 				GUILayout.Label("│  " + pending + (pending == 1 ? " change" : " changes") + " pending, applies after restart", skin_.StatusText, GUILayout.ExpandWidth(false));
 				if (GUILayout.Button("Undo", skin_.StatusItem, GUILayout.ExpandWidth(false))) {
@@ -849,7 +860,7 @@ namespace AetherLoader {
 				}
 			}
 			GUILayout.FlexibleSpace();
-			if (InputGate.BlockMouse || InputGate.BlockKeys) {
+			if (statusHeld_) {
 				GUILayout.Label("Game input held for the window", skin_.StatusText, GUILayout.ExpandWidth(false));
 			}
 			if (GUILayout.Button("Mods Folder", skin_.StatusItem, GUILayout.ExpandWidth(false))) {
